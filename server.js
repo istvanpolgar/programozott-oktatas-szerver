@@ -126,6 +126,51 @@ app.post('/forgotten_pass', async (req, res) => {
     })
 })
 
+app.post('/getuser', async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        signOut(auth).then(() => {
+            return res.send({code: 400, message: "Hiányzó token!"});
+        }).catch((error) => {
+            res.send({code: 400, message: error.message});
+        })
+    }
+  
+    if (!refreshTokens.includes(token)) {
+        signOut(auth).then(() => {
+            return res.send({code: 400, message: "Helytelen token!"});
+        }).catch((error) => {
+            res.send({code: 400, message: error.message});
+        })
+    }
+  
+    jwt.verify(token, refreshTokenSecret, async (err) => {
+        if (err) {
+            signOut(auth).then(() => {
+                return res.send({code: 400, message: "Nem létező token!"});
+            }).catch((error) => {
+                res.send({code: 400, message: error.message});
+            })
+        }
+
+        const starCountRef = ref(database, 'users/' + auth.currentUser.uid);
+        onValue(starCountRef, (snapshot) => {
+            res.send({user: snapshot.val().name});
+        });
+    }); 
+})
+
+app.post('/signout', (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    refreshTokens = refreshTokens.filter(t => t !== token);
+    signOut(auth).then(() => {
+        res.send({status: "Logged out!"});
+    }).catch((error) => {
+        res.send({code: 400, message: error.message});
+    })
+});
+
 app.listen(port, () => {
     console.log(`A Programozott oktatás szervere fut a következő címen: http://localhost:${port}`);
 })
