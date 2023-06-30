@@ -171,6 +171,10 @@ app.post('/signout', (req, res) => {
     })
 });
 
+app.post('/', (req, res) => {
+    console.log("Hello Word");
+});
+
 app.listen(port, () => {
     console.log(`A Programozott oktatás szervere fut a következő címen: http://localhost:${port}`);
 })
