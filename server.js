@@ -218,7 +218,7 @@ app.post('/stats', async (req, res) => {
                                 {
                                     let ans = [];
                                     e.forEach(a => {
-                                        if(a.key != 'title' && e.key != 'exercise' && e.key != 'url'){
+                                        if(a.key != 'title' && e.key != 'exercise' && e.key != 'url' && e.key != 'nr'){
                                             ans.push(a.val());
                                         }
                                     });
