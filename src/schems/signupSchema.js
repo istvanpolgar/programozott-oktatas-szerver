@@ -16,10 +16,10 @@ const signupSchema = Joi.object({
         "string.email": `Az e-mial címnek valósnak kell lennie!`,
         "any.required": `Az E-mail mező kötelező!`,
     }),
-    password: Joi.string().min(3).max(128).required().messages({
+    password: Joi.string().min(6).max(128).required().messages({
         "string.base": `A Jelszó mező csak szöveg típusú lehet!`,
         "string.empty": `A Jelszó mező nem lehet üres!`,
-        "string.min": `A Jelszó mező legalább 3 karakter hosszú kell legyen!`,
+        "string.min": `A Jelszó mező legalább 6 karakter hosszú kell legyen!`,
         "string.max": `A Jelszó mező fegfennebb 128 karakter hosszú lehet!`,
         "any.required": `A Jelszó mező kötelező!`,
     }),
